@@ -1,0 +1,28 @@
+/* 画像のカラー成分測定
+   https://www.color-sample.com/others/imageanalysis/  */
+
+
+body {
+    background-color: #181E50;
+    text-align: center;
+}
+
+img {
+    width: 550px;
+}
+
+p {
+    color: beige;
+    font-size: 15px;
+}
+
+.button {
+    font-size: 16px;
+    font-weight: 700;
+    display: inline-block;
+    padding: 7px 30px;
+    text-decoration: none;
+    color: #181E50;
+    border-radius: 0.5rem;
+    background-color: aquamarine;
+}

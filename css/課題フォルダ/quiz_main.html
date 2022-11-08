@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クイズ課題</title>
+    <link rel="stylesheet" href="/css/課題フォルダ/quiz_main.css">
+</head>
+
+<body>
+
+    <div class="title">
+        <h1>ザ・タイムショック</h1>
+    </div>
+
+    <div class="main">
+
+        <div class="question_No">
+            <!-- 第何問目かを表示するとこ -->
+            <p id="number">第1問目</p>
+        </div>
+
+        <div class="center">
+            <div class="left">
+                <div class="player_img">
+                    <img src="/css/56e086332a2debaff6e2cd4bfa045a7d_600.png" alt="挑戦者">
+                </div>
+            </div>
+            <div class="right">
+                <div class="question">
+                    <!-- 問題文を表示するとこ -->
+                    <p id="question"></p>
+                </div>
+                <div class="answer">
+                    <!-- 回答選択肢を表示 -->
+                    <ul>
+                        <li><button id="answer0">0</button></li>
+                        <li><button id="answer1">1</button></li>
+                        <li><button id="answer2">2</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- タイマー設置 -->
+    <div class="time">
+        制限時間：<output id="timer"></output>
+    </div>
+    <!-- 失敗・・・ 
+    <audio src="/css/鳩時計1.mp3" id="play-button3"></audio>  -->
+
+
+    <!-- 結果を表示するとこ -->
+    <p id="result"></p>
+    <p id="result2"></p>
+    <p id="result3"></p>
+
+
+    <audio src="/css/正解.mp3" id="play-button1"></audio>
+    <audio src="/css/不正解.mp3" id="play-button2"></audio>
+
+
+
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+
+        // 何問目かの配列
+        const number = [];
+
+        // クイズの配列
+        const quiz = [
+            {
+                question: "１１月８日。今日はなんの日？？",
+                answers: ["レントゲンの日", "レコードの日", "みかんの日"],
+                correct: 0,
+            },
+            {
+                question: "キリンの１日の睡眠時間は何分？",
+                answers: ["20分", "40分", "60分"],
+                correct: 0,
+            },
+            {
+                question: "生麦生米生卵！”ま”何回言った？",
+                answers: ["３回", "４回", "５回"],
+                correct: 1,
+            },
+            {
+                question: "本当にあったオリンピック競技は？",
+                answers: ["早食い競争", "山登り", "魚釣り"],
+                correct: 2,
+            },
+            {
+                question: "「最初はぐー」を考案した人は？",
+                answers: ["いかりや長介", "加藤茶", "志村けん"],
+                correct: 2,
+            },
+        ];
+
+        // 結果の配列
+        const result = [];
+
+
+        // id:numberにtext(第何問目)を表示
+        $("#nember").text("第" + (result.length + 1) + "問目");
+
+        // id:questionにtext(quizの配列の[ ]番目を表示)
+        $("#question").text(quiz[result.length].question);
+
+        // id:answerに
+        $("#answer0").text(quiz[result.length].answers[0]);
+        $("#answer1").text(quiz[result.length].answers[1]);
+        $("#answer2").text(quiz[result.length].answers[2]);
+
+        // valueの設定
+        $("#answer0").val(0);
+        $("#answer1").val(1);
+        $("#answer2").val(2);
+
+        // ボタンをクリックした時に・・・
+        $("button").on("click", function (e) {
+            if (result.length < quiz.length) {
+                if (Number(e.target.value) === quiz[result.length].correct) {
+                    $("#result").text("正解");
+                    $("#play-button1").get(0).play();
+                    result.push("OK");
+                    console.log("OK");
+                }
+                else {
+                    $("#result").text("不正解");
+                    $("#play-button2").get(0).play();
+                    result.push("NG");
+                    console.log("NG");
+                }
+            };
+
+            if (result.length < quiz.length) {
+                $("#number").text("第" + (result.length + 1) + "問目");
+                $("#question").text(quiz[result.length].question);
+                $("#answer0").text(quiz[result.length].answers[0]);
+                $("#answer1").text(quiz[result.length].answers[1]);
+                $("#answer2").text(quiz[result.length].answers[2]);
+            }
+
+            else {
+                $("#result").text("終了！");
+
+                // result内のOKを数えるために、フィルターかけて、okcountへ取り出す
+                let okcount = result.filter(element => element == 'OK')
+
+                // 正解数を出す
+                // okcountの長さ(＝OKの数)を、コンソールに表示
+                console.log(okcount.length)
+                // resultにOK数を表示する
+                $("#result2").text(okcount.length + "問正解")
+
+                // 正解率を出す
+                console.log((result.length + 1) / okcount.length)
+                $("#result3").text(okcount.length / (quiz.length) * 100 + "%")
+            }
+
+        });
+
+
+        // time_IDは変数であることを宣言(個々のタイマーを識別するためのID)
+        let timer_ID;
+        //変数timeに60を代入する
+        let time = 15;
+
+        // オンロード終了後、dispTime()関数を呼び出す
+        function minusTime() {
+            // timeの更新（--：「デクリメント演算子」1を減算して値を返す）
+            time--;
+            // (dispTime：変数timeに保存されている数字を表示)
+            dispTime();
+            // もしtimeが0になったら・・・
+            if (time == 0) {
+                // タイムアップを表示
+                clearInterval(timer_ID);
+                $("#timer").text("タイムアップ！！！");
+
+                $("#play-button3").get(0).play();
+            }
+        }
+
+        // 変数timeに数字が表示される
+        function dispTime() {
+            document.getElementsByTagName("output")[0].innerHTML = time;
+        }
+
+        window.onload = function () {
+            dispTime();                                     // timeの表示
+            timer_ID = setInterval("minusTime()", 1000);    //【タイマーの設定】
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

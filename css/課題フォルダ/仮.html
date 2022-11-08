@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <output id="timer"></output>
+
+    <audio src="/css/鳩時計1.mp3" id="play-button3"></audio>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+
+
+        // time_IDは変数であることを宣言(個々のタイマーを識別するためのID)
+        let timer_ID;
+        //変数timeに60を代入する
+        let time = 2;
+
+        // オンロード終了後、dispTime()関数を呼び出す
+        function minusTime() {
+            // timeの更新（--：「デクリメント演算子」1を減算して値を返す）
+            time--;
+            // (dispTime：変数timeに保存されている数字を表示)
+            dispTime();
+            // もしtimeが0になったら・・・
+            if (time == 0) {
+                // タイムアップを表示
+                clearInterval(timer_ID);
+                $("#timer").text("タイムアップ！！！");
+
+                $("#play-button3").get(0).play();
+            }
+        }
+
+        // 変数timeに数字が表示される
+        function dispTime() {
+            document.getElementsByTagName("output")[0].innerHTML = time;
+        }
+
+        window.onload = function () {
+            dispTime();                                     // timeの表示
+            timer_ID = setInterval("minusTime()", 1000);    //【タイマーの設定】
+        }
+
+
+
+
+    </script>
+
+</body>
+
+</html>

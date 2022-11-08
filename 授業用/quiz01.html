@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+  <h1>Quiz初級編</h1>
+
+  <p id="question"></p>
+
+  <ul>
+    <li><button id="answer00">0</button></li>
+    <li><button id="answer01">1</button></li>
+    <li><button id="answer02">2</button></li>
+  </ul>
+
+  <p>結果</p>
+  <p id="result"></p>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script>
+
+    const quiz = {
+      question: 'プログラミングにおいて次の3つの中で最も重要なものはなにか．',
+      // 左から順に、0,1,2
+      answers: ['知性', 'コード量', '体格'],
+      // 正解の番号もしくは”文字列”
+      correct: 1,
+    };
+
+    // 1. 問題文の表示
+    $("#question").text(quiz.question);
+
+    // 2. 選択肢の表示([]は、配列の何番目か？)
+    $("#answer00").text(quiz.answers[0]);
+    $("#answer01").text(quiz.answers[1]);
+    $("#answer02").text(quiz.answers[2]);
+
+    // 3. value の設定(これを書かないとJSに反映されない)
+    // "#answer00"の値が何か
+    $("#answer00").val(0);
+    $("#answer01").val(1);
+    $("#answer02").val(2);
+
+    // ボタンをクリックした時に・・・
+    // (e)は、eventのe(=どのボタンをクリックしたかを特定する為に書く)。
+    $("button").on("click", function (e) {
+
+      // ↓ 確認のための3行
+      console.log(typeof Number(e.target.value));
+      console.log(quiz.correct)
+      console.log(e)
+
+      // もし(e.target.value)”が、quizのcorrect (1)”と同じだったら
+      if (Number(e.target.value) === quiz.correct) {
+        // 正解！！！の表示
+        $("#result").text("正解！！！");
+        // それ以外だったら
+      } else {
+        // 不正解．．．の表示
+        $("#result").text("不正解．．．");
+      }
+    });
+
+
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+body {
+    background-color: #181E50;
+    color: white;
+}
+
+.title {
+    text-align: center;
+}
+
+/* ボーダーの種類
+   https://webukatu.com/wordpress/blog/25526/ */
+.main {
+    border: dashed 10px;
+    border-radius: 40rem;
+    background-color: white;
+    padding: 30px 50px 50px;
+    margin: 0px 100px;
+    color: rgb(39, 234, 49);
+    transition: all 2s linear;
+
+    /* 透過率０ー１００でアニメーションつかったけど・・・ */
+    animation: blinkBorder 1s ease-in-out infinite alternate;
+}
+
+@keyframes blinkBorder {
+    0% {
+        border: 0;
+    }
+
+    100% {
+        border: 1;
+    }
+}
+
+
+
+p#number {
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+    margin: 20px;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+
+.player_img img {
+    text-align: left;
+    width: 200px;
+    border: groove 10px;
+}
+
+.right {
+    margin-left: 30px;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+button {
+    width: 150px;
+    height: 30px;
+    margin: 5px;
+}
+
+.time {
+    margin: 10px;
+    text-align: center;
+}
+
+
+p#result {
+    text-align: center;
+    font-size: 30px;
+    margin: 20px;
+}
+
+p#result2,
+p#result3 {
+    text-align: center;
+}

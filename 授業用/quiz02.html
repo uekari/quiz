@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/授業用/main.css">
+</head>
+
+<body>
+  <h1>Quiz中級編</h1>
+
+  <p id="number"></p>
+
+  <p id="question"></p>
+
+  <ul>
+    <li><button id="answer00">0</button></li>
+    <li><button id="answer01">1</button></li>
+    <li><button id="answer02">2</button></li>
+  </ul>
+
+  <p>結果</p>
+  <p id="result"></p>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script>
+
+    // 第何問目？
+    const number = [];
+
+    // 内容
+    const quiz = [
+      // クイズ[０]
+      {
+        question: 'プログラミングにおいて次の3つの中で最も重要なもの？？',
+        answers: ['知性', 'コード量', '体格'],
+        correct: 1,
+      },
+      // クイズ[１]
+      {
+        question: '課題をつくるときに大事なことは？？',
+        answers: ['斬新なアイデア', 'コミットする時間', '洗練されたコード'],
+        correct: 1,
+      },
+      // クイズ[２]
+      {
+        question: 'コードを書くことに疲れたときはどうするのがよいか．',
+        answers: ['温泉に浸かる', 'ビールを飲む', '更にコードを書く'],
+        correct: 2,
+      },
+      // クイズ[3]
+      {
+        question: 'A',
+        answers: ['A', 'B', 'C'],
+        correct: 0,
+      },
+      // クイズ[4]
+      {
+        question: 'a',
+        answers: ['a', 'b', 'c'],
+        correct: 2,
+      },
+    ];
+
+    // 結果記録用の配列を表示
+    const result = [];
+
+
+    // 何問目かの表示
+    $("#number").text("第" + (result.length + 1) + "問");
+
+    // 問題文を表示
+    $("#question").text(quiz[result.length].question);
+
+    // 選択肢の表示([]は、配列の何番目か？)
+    $("#answer00").text(quiz[result.length].answers[0]);
+    $("#answer01").text(quiz[result.length].answers[1]);
+    $("#answer02").text(quiz[result.length].answers[2]);
+
+    // value の設定(これを書かないとJSに反映されない)
+    // "#answer00"の値が何か
+    $("#answer00").val(0);
+    $("#answer01").val(1);
+    $("#answer02").val(2);
+
+    // ボタンをクリックした時に・・・
+    // (e)は、eventのe。(=どのボタンをクリックしたかを特定する為に書く)
+    $("button").on("click", function (e) {
+
+      // ↓ 確認のための3行
+      // console.log(typeof Number(e.target.value));
+      // console.log(quiz[result.length].correct)
+      // console.log(e)
+
+
+      // 問題がまだある場合・・・
+      if (result.length < quiz.length) {
+        // もし(e.target.value)”が、quizのcorrectと同じだったら・・・
+        if (Number(e.target.value) === quiz[result.length].correct) {
+          // 正解！！！の表示
+          $("#result").text("正解！！！");
+          // 結果を配列に追加し、コンソールに保存する
+          result.push("OK");
+          console.log("OK");
+        }
+        // それ以外だったら・・・
+        else {
+          // 不正解．．．の表示
+          $("#result").text("不正解．．．");
+          // 結果を配列に追加し、コンソールに保存する
+          result.push("NG");
+          console.log("NG");
+        }
+      };
+
+      // 問題文と選択肢を更新
+      // もし”結果の長さ”が、”問題の長さ”より少なかったら・・・
+      if (result.length < quiz.length) {
+        // 下記を表示する
+        $("#number").text("第" + (result.length + 1) + "問");
+        $("#question").text(quiz[result.length].question);
+        $("#answer00").text(quiz[result.length].answers[0]);
+        $("#answer01").text(quiz[result.length].answers[1]);
+        $("#answer02").text(quiz[result.length].answers[2]);
+      }
+      // それ以外の場合(全ての問題が終わった時)・・・
+      else {
+        // result内のOKを数えるために、フィルターかけて、okcountへ取り出す
+        let okcount = result.filter(element => element == 'OK')
+
+        // 正解数を出す
+        // okcountの長さ(＝OKの数)を、コンソールに表示
+        console.log(okcount.length)
+        // resultにOK数を表示する
+        $("#result").text(okcount.length + "問正解")
+
+        // 正解率を出す
+        console.log((result.length + 1) / okcount.length)
+        $("#number").text(okcount.length / (quiz.length) * 100 + "%")
+      }
+    });
+
+  </script>
+
+</body>
+
+</html>
